@@ -53,9 +53,3 @@ class BillsForm(FlaskForm):
     amount = IntegerField('Suma', [DataRequired()])
     description = TextAreaField('Apibūdinimas', [DataRequired()])
     submit = SubmitField('Pateikti')
-
-# class BillsForm(FlaskForm):
-#     user = QuerySelectField(query_factory=user_query, get_label='full_name', get_pk=lambda obj: obj.id)
-#     amount = IntegerField('Suma', [DataRequired()])
-#     description = TextAreaField('Apibūdinimas', [DataRequired()])
-#     submit = SubmitField('Pateikti')

@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div>
+        <h3>This Groups Members:</h3>
+        {% for user in group.users %}
+            <h5> {{ user.full_name }} </h5>
+        {% endfor %}
+    </div>
+    
     <br>
     <h3 style="text-align:center">This is Groups {{group.id}} Bills </h3>
     <br>
@@ -8,7 +15,7 @@
     <table class="table">
         <tr>
             <td><b>ID</b></td>
-            <td><b>Full_name</b></td>
+            <td><b>Full name</b></td>
             <td><b>Description</b></td>
             <td><b>Amount</b></td>
             <td></td>

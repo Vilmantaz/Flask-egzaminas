@@ -108,7 +108,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-
 @app.route('/grupės', methods=['GET', 'POST'])
 def groups():
     form = forms.GroupForm()
@@ -119,17 +118,18 @@ def groups():
         abort(404)
     if form.validate_on_submit():
         group = form.group.data
-        print (current_user)
+        print (current_user.full_name)
         
         if current_user not in group.users:
-            naujas_sarasas = list(group.users).append(current_user)
-            print(naujas_sarasas)
+            selected_group = Groups.query.get(group.id)
+            user = User.query.get(current_user.id)
+            selected_group.users.append(user)
+            db.session.commit()
         else:
             return 'this user is already in this Group'
         return redirect(url_for('current_group', group_id=group.id))
 
     return render_template('groups.html', groups=groups, form=form)
-
 
 
 @app.route('/grupės/<int:group_id>', methods=['GET', 'POST'])
@@ -146,11 +146,9 @@ def current_group(group_id):
     print(type(form.user_id.choices))
     
     for user in users:
-        if user in list(group.users):
-            print(user)
+        if user in group.users:
             if form.validate_on_submit():
-                # value = dict(form.user_id.choices).get(form.user_id.data)
-                bill = Bills(group_id=group.id, user_full_name=form.user_id.data.full_name, description=form.description.data, amount=form.amount.data)
+                bill = Bills(group_id=group.id, user_full_name=form.user_id.data, description=form.description.data, amount=form.amount.data)
                 db.session.add(bill)
                 db.session.commit()
                 return redirect(url_for('current_group', group_id=group.id))
