@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+<H1 style="text-align: center; margin-top: 2rem">Select Your Group</H1>
+{% block content %}
+
+    <div style="display:flex; flex-wrap:wrap">
+        {% if groups %}
+        {% for group in groups %}
+            <a href="{{ url_for('current_group', group_id=group.id) }}">
+                <div style="width: 12rem; height: 12rem; border: 2px solid black; margin: 2rem">
+                    <div style="margin: 2rem; text-align: center">
+                        <h3>ID. {{group.id}}</h3>
+                        <br>
+                        <b>{{group.name}}</b>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+
+
+
+<div style="text-align: center; margin:auto ; width: 20%">
+    <h3>Pasirinkite Grupę</h3>
+    <form method="post" action="#">
+        {{ form.csrf_token }}
+        <div>
+            {{ form.group.label(class="form-control-label") }}
+            {{ form.group(class="form-control") }}
+        </div>
+        {{ form.submit(class="btn btn-outline-info") }}
+    </form>
+</div>
+
+
+
+{#<p><a href="{{ url_for('new_parent')}}">Naujas tėvas</a></p>#}
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h3 style="text-align:center">This is Groups {{group.id}} Bills </h3>
+    <br>
+    
+    <table class="table">
+        <tr>
+            <td><b>ID</b></td>
+            <td><b>Full_name</b></td>
+            <td><b>Description</b></td>
+            <td><b>Amount</b></td>
+            <td></td>
+        </tr>
+        
+            {% for  bill in group.bills %}
+                <tr>
+                    <td>{{bill.id}}</a></td>
+                    {% if bill.user_full_name %}
+                        <td>{{ bill.user_full_name }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                    <td>{{bill.description}}</td>
+                    <td>{{bill.amount}}</td>
+                    <td>
+                        <form action="{{ url_for('bill_delete', group_id=group.id, bill_id=bill.id) }}" method="POST">
+                            {{ form.csrf_token }}
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+       
+            {% endfor %}  
+    </table>
+    <br>
+    <h3 style="text-align:center">Add Bill </h3>
+    <br>
+    <form method="post" action="#">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.user_id.label(class="form-control-label") }}
+            {{ form.user_id(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.amount.label(class="form-control-label") }}
+            {{ form.amount(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.description.label(class="form-control-label") }}
+            {{ form.description(class="form-control") }}
+        </div>
+        {{ form.submit(class="btn btn-outline-info") }}
+    </form>
+{% endblock %}
