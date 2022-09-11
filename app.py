@@ -1,4 +1,3 @@
-from tkinter import SEPARATOR
 from flask import Flask, render_template, redirect, url_for, flash, request, abort
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -142,12 +141,12 @@ def current_group(group_id):
     all_groups = Groups.query.all()
     form = forms.BillsForm()
     users = User.query.all()
-    form.user_id.choices = [(u.id, u.full_name) for u in group.users]
-    print(type(form.user_id.choices))
+    form.user_id.choices = [(user.id, user.full_name) for user in group.users]
     
     for user in users:
         if user in group.users:
             if form.validate_on_submit():
+                # Niekaip nesugalvoju kaip vietoj user_id atvaizduoti full_name
                 bill = Bills(group_id=group.id, user_full_name=form.user_id.data, description=form.description.data, amount=form.amount.data)
                 db.session.add(bill)
                 db.session.commit()
@@ -184,5 +183,4 @@ def new_group():
 
 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)

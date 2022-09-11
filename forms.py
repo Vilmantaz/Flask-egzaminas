@@ -49,6 +49,7 @@ class NewGroupForm(FlaskForm):
     submit = SubmitField('Sukurti')
 
 class BillsForm(FlaskForm):
+    #norėjau naudoti QuerySelectField, bet niekaip nesigavo padaryt, kad atvaizduotų tik tos grupės userius.
     user_id = SelectField(u'User', coerce=int)
     amount = IntegerField('Suma', [DataRequired()])
     description = TextAreaField('Apibūdinimas', [DataRequired()])
