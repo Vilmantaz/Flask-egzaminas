@@ -125,7 +125,7 @@ def groups():
             selected_group.users.append(user)
             db.session.commit()
         else:
-            return 'this user is already in this Group'
+            return render_template('404.html')
         return redirect(url_for('current_group', group_id=group.id))
 
     return render_template('groups.html', groups=groups, form=form)
@@ -141,13 +141,12 @@ def current_group(group_id):
     all_groups = Groups.query.all()
     form = forms.BillsForm()
     users = User.query.all()
-    form.user_id.choices = [(user.id, user.full_name) for user in group.users]
+    form.user_full_name.choices = [(user.full_name, user.full_name) for user in group.users]
     
     for user in users:
         if user in group.users:
             if form.validate_on_submit():
-                # Niekaip nesugalvoju kaip vietoj user_id atvaizduoti full_name
-                bill = Bills(group_id=group.id, user_full_name=form.user_id.data, description=form.description.data, amount=form.amount.data)
+                bill = Bills(group_id=group.id, user_full_name=form.user_full_name.data, description=form.description.data, amount=form.amount.data)
                 db.session.add(bill)
                 db.session.commit()
                 return redirect(url_for('current_group', group_id=group.id))
